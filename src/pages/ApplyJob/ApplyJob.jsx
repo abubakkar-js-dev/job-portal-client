@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 const ApplyJob = () => {
   const { email } = useAuth();
   const { id } = useParams();
-  console.log(email);
 
   const handleApply = (e) => {
     e.preventDefault();
