@@ -29,10 +29,10 @@ const Login = () => {
         .then(result=>{
           setUser(result.user);
           const user = {email: result.user.email};
-          axios.post('http://localhost:5000/jwt',user)
-          .then(data => {
-            console.log(data);
+          axios.post('http://localhost:5000/jwt',user,{
+            withCredentials: true,
           })
+          .then(res=> console.log(res.data));
           // navigate(from || '/');
         })
         .catch(err=>{

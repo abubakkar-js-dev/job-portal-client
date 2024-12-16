@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 const MyApplications = () => {
-  const { email } = useAuth();
+  const user = useAuth();
   const [myApplications, setMyApplications] = useState([]);
+  console.log(myApplications);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/my-application/?email=${user.email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setMyApplications(data));
+  // }, [user.email]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/my-application/?email=${email}`)
-      .then((res) => res.json())
-      .then((data) => setMyApplications(data));
-  }, []);
+    axios
+      .get(`http://localhost:5000/my-application/?email=${user.email}`, {
+        withCredentials: true,
+      })
+      .then((res) => setMyApplications(res.data));
+  }, [user.email]);
+
   return (
     <div className="container mx-auto">
       <h2 className="text-2xl md:text-3xl font-medium">
@@ -52,7 +63,9 @@ const MyApplications = () => {
                     </div>
                     <div>
                       <div className="font-bold">{job.title}</div>
-                      <div className="text-sm opacity-50">{job.location.split(',').at(-1).trim()}</div>
+                      <div className="text-sm opacity-50">
+                        {job.location.split(",").at(-1).trim()}
+                      </div>
                     </div>
                   </div>
                 </td>
