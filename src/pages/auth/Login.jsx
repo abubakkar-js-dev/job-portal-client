@@ -4,6 +4,7 @@ import Lottie from "react-lottie";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import GoogleLogin from "../../shared/GoogleLogin";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Login = () => {
 
@@ -27,7 +28,12 @@ const Login = () => {
         signInUser(email,password)
         .then(result=>{
           setUser(result.user);
-          navigate(from || '/');
+          const user = {email: result.user.email};
+          axios.post('http://localhost:5000/jwt',user)
+          .then(data => {
+            console.log(data);
+          })
+          // navigate(from || '/');
         })
         .catch(err=>{
           const errorMessage = err.message;
